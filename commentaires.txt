@@ -1,0 +1,8 @@
+/****
+* Alfonso: Je pense que ton cerveau à dû exploser
+* Avec un peu de travail je pense que tu comprendras laplupart des choses dans la logique orienté objet
+* C'est pas fastoche je pense néanmoins que tu y arriveras.
+* Continue à travailler et tout ira bien
+*
+* Avec Pierre vous toucherez un peu plus au javascript peut-être ça t'aidera dans ton ascension
+* Bonne vacances et à bientôt
