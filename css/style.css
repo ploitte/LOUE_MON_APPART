@@ -1,0 +1,41 @@
+body{
+    height: 100vh;
+    width: 100vw;
+}
+
+header{
+    height: 15%;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header a{
+    margin: 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+.main{
+    height: 85%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: brown;
+}
+
+#subConec, #subInsc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_annonce input{
+    display: block;
+    
+}
