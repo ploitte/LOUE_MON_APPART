@@ -1,110 +1,61 @@
 <?php 
 
 
-class serviceInscription
+class serviceInscription extends service
 {
 
-    private $params = array();
-    private $error;
-    private $user;
-
-    /*** GETTERS ET SETTERS **/
-
-    /**
-     * @return mixed
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
-     * @param mixed $params
-     */
-    public function setParams($params)
-    {
-        $this->params = $params;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getError()
-    {
-        return $this->error;
-    }
-
-    /**
-     * @param mixed $error
-     */
-    public function setError($error)
-    {
-        $this->error = $error;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
     public function launchControls(){
-       
+
+        $params = $this -> params;
+
         $bdd = new bddManager();
         $user = new user();
-        $user -> setUsername($this -> params["username"]);
-        $user -> setEmail($this -> params["email"]);
+    
+        $user -> setUsername($params["username"]);
+        $user -> setEmail($params["email"]);
 
-        if(!empty($user -> checkUsername($bdd))){
-            $this -> error["existUsername"] = "Username déjà utilisé";
+        if($user -> checkUsername($bdd)){
+            $this -> saveError("existUsername", "Username déjà utilisé");
         }
 
-        if(!empty($user -> checkEmail($bdd))){
-            $this -> error["existEmail"] = "Email déjà utilisé";
-        }
-       
-        if(empty($this->params['username'])){
-            $this->error['emptyUsername'] = 'Nom utilisateur manquant';
+        if($user -> checkEmail($bdd)){ 
+            $this -> saveError("existEmail", "Email déjà utilisé");
         }
 
-        if(strlen($this -> params["username"]) < 4){
-            $this -> error["usernameLength"] = " Non d'utilisateur trop court";
+        if(empty($params['username'])){
+            $this -> saveError("emptyUsername", "Nom d'utilisateur manquant");
+        }
+
+        else if(strlen($params["username"]) < 4){
+            $this -> saveError("usernameLength", "Nom d'utilisateur trop court");
         }
         
-        if(empty($this -> params["email"])){
-            $this -> error["emptyEmail"] = "Adresse mail manquante";
-        }
-        
-        // regex Email ICI
+        if(empty($params["email"])){
+            $this -> saveError("emptyEmail", "Adresse mail manquante");
 
-        if(empty($this->params['password'])){
-            $this->error['emptyPassword'] = 'Mot de passe manquant';
+        }
+        else if (!preg_match('#^[\w.-]+@[\w.-]+\.[a-z]{2,6}$#i', $params["email"])){
+            $this -> saveError("validMail", "Adresse mail non valide");
         }
 
-        if(strlen($this -> params["password"]) < 8){
-            $this -> error["passwordLength"] = "Mot de passe trop court";
+        if(empty($params['password'])){
+            $this -> saveError("emptyPassword", "Mot de passe manquant");
         }
 
-        if(empty($this->params['verifPass'])){
-            $this->error['emptyVerifPass'] = 'Mot de passe de verification manquant';
+        else if(strlen($params["password"]) < 8){
+            $this -> saveError("passwordLength", "Mot de passe trop court");
         }
 
-        if($this -> params["password"] != $this -> params["verifPass"]){
-            $this -> error["matchPass"] = "Les mots de passe ne correspondent pas";
+        if(empty($params['verifPass'])){
+            $this -> saveError("emptyVerifPass", "Mot de passe de verification manquant");
         }
 
-        if(!empty($this->error)){
-            return $this->error;
+        if($params["password"] != $params["verifPass"]){
+            $this -> saveError("matchPass", "Les mots de passe ne correspondent pas");
+        }
+
+        if(!empty($this -> error)){
+            return $this -> error;
         }
         else return true;
     }

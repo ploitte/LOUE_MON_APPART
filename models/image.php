@@ -54,7 +54,9 @@
                 $this->$method($value);
             }
         }
-    }        
+    }    
+    
+        
 
  }
 

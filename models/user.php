@@ -80,7 +80,7 @@ class user{
     }
 
     public function checkEmail(bddManager $bddManager){
-        $bddManager -> checkEmailBdd($this);
+        return $bddManager -> checkEmailBdd($this);
     }
 
     public function checkUsernamePass(bddManager $bddManager){

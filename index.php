@@ -51,11 +51,13 @@ Flight::route("POST /inscription", function(){
     $service = new serviceInscription();
     $service -> setParams($post);
     if($service -> launchControls() === true){
-        Flight::user() -> setUsername($post["username"]);
-        Flight::user() -> setEmail($post["email"]);
-        Flight::user() -> setPassword($post["password"]);
+        $user = Flight::user();
+        $user -> setUsername($post["username"]);
+        $user -> setEmail($post["email"]);
+        $user -> setPassword(sha1($post["password"]));
 
-        Flight::user() -> insert(Flight::bddManager());
+        $user -> insert(Flight::bddManager());
+
         Flight::redirect("connexion?registered");
     }
     else{
@@ -82,21 +84,28 @@ Flight::route("POST /connexion", function(){
 });
 
 Flight::route("POST /annonce", function(){
-    
-    $post= $_POST;
+    $post = $_POST;
+    $file = $_FILES;
     $service = new serviceAnnonce();
-    $service -> setParams($post);
+    $service -> setParams($_POST);
+    $service -> setImage($file);
     if($service -> launchControls() === true){
         $annonce = Flight::annonce();
-        // $annonce -> setTypes($post["type"]);
+
+        $annonce -> setCategorie($post["categorie"]);
         $annonce -> setSurface($post["surface"]);
         $annonce -> setNb_chambre($post["nb_chambre"]);
         $annonce -> setDispo($post["dispo"]);
         $annonce -> setTitre($post["titre"]);
         $annonce -> setDesc($post["desc"]);
         $annonce -> setPrix($post["prix"]);
+        $annonce -> setPhoto1($file["photo1"]);
+        $annonce -> setPhoto2($file["photo2"]);
+        $annonce -> setPhoto3($file["photo3"]);
 
+ 
         $annonce -> insert(Flight::bddManager());
+        $annonce -> insertImg(Flight::bddManager());
 
         Flight::redirect("accueil?posted");
     }else{

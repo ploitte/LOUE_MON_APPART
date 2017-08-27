@@ -1,65 +1,75 @@
 <?php
 
-    Class serviceAnnonce{
-
-        private $error;
-        private $params;
-
-    /*** GETTERS ET SETTERS **/
+    Class serviceAnnonce extends service {
+        
+        private $image;
 
         /**
         * @return mixed
         */
-        public function getParams()
+        public function getImage()
         {
-            return $this->params;
+            return $this->image;
         }
 
         /**
         * @param mixed $params
         */
-        public function setParams($params)
+        public function setImage($image)
         {
-            $this->params = $params;
-        }
-
-        /**
-        * @return mixed
-        */
-        public function getError()
-        {
-            return $this->error;
-        }
-
-        /**
-        * @param mixed $error
-        */
-        public function setError($error)
-        {
-            $this->error = $error;
+            $this->image = $image;
         }
 
 
-        public function launchControls(){
+        public function sizeImage($arg1){
+            $this -> image[$arg1]["size"] >= 2097152;   
+        }
         
-            if(empty($this-> params['surface'])){
-                $this-> error['emptySurface'] = 'a';
-            }
+        public function launchControls(){
 
-            // if(empty($this-> params['nb_chambre'])){
-            //     $this-> error['emptySurface'] = 'a';
+
+            $image = $this -> image;
+            $params = $this -> params;
+            
+            $extensionValide = array("jpg", "jpeg", "gif", "png");
+            $extensionUpload1 = strtolower(substr(strrchr($image["photo1"]["name"], "."), 1));
+            $extensionUpload2 = strtolower(substr(strrchr($image["photo2"]["name"], "."), 1));
+            $extensionUpload3 = strtolower(substr(strrchr($image["photo3"]["name"], "."), 1));
+
+            // if($this -> sizeImage("photo1") {
+            //    $this -> saveError("tailleFichier1", "Photo1: Fichier trop volumineux");
             // }
 
-            // if(empty($this-> params['prix'])){
-            //     $this-> error['emptySurface'] = 'a';
+            // if($this -> sizeImage("photo2") {
+            //    $this -> saveError("tailleFichier2", "Photo2: Fichier trop volumineux");
             // }
 
-            // if(empty($this-> params['titre'])){
-            //     $this-> error['emptySurface'] = 'a';
+            // if($this -> sizeImage("photo3") {
+            //    $this -> saveError("tailleFichier3", "Photo3: Fichier trop volumineux");
             // }
 
-            // if(empty($this-> params['desc'])){
-            //     $this-> error['emptyDesc'] = 'a';
+            // if(!in_array($extensionUpload1, $extensionValide)){
+            //     $this -> saveError("formatFichier1", "Pohot 1: Format de fichier non accepté");
+            // }
+
+            // if(!in_array($extensionUpload2, $extensionValide)){
+            //     $this -> saveError("formatFichier2", "Photo2: Format de fichier non accepté");
+            // }
+
+            // if(!in_array($extensionUpload3, $extensionValide)){
+            //     $this -> saveError("formatFichier3", "Photo3: Format de fichier non accepté");
+            // }
+
+            // if($image["photo1"]["error"]){
+            //     $this -> saveError("transfertFichier1","Photo1: Erreur lors du transfert");
+            // }
+
+            // if($image["photo2"]["error"]){
+            //     $this -> saveError("transfertFichier2","Photo2: Erreur lors du transfert");
+            // }
+
+            // if($image["photo3"]["error"]){
+            //     $this -> saveError("transfertFichier3","Photo3: Erreur lors du transfert");
             // }
 
             if(!empty($this -> error)){
