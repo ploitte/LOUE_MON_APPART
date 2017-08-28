@@ -3,6 +3,8 @@
     Class annonce{
 
         private $id;
+        private $pays;
+        private $ville;
         private $categorie;
         private $surface;
         private $nb_chambre;
@@ -26,6 +28,26 @@
         public function setId($id)
         {
             $this -> id = $id;
+        }
+
+        public function getPays()
+        {
+            return $this -> pays;
+        }
+
+        public function setPays($pays)
+        {
+            $this -> pays = $pays;
+        }
+
+        public function getVille()
+        {
+            return $this -> ville;
+        }
+
+        public function setVille($ville)
+        {
+            $this -> ville = $ville;
         }
 
         public function getCategorie()
@@ -100,7 +122,7 @@
 
         public function getPhoto1()
         {
-            return $photo1 -> photo1;
+            return $this -> photo1;
         }
 
         public function setPhoto1($photo1)
@@ -110,7 +132,7 @@
     
         public function getPhoto2()
         {
-            return $photo1 -> photo2;
+            return $this -> photo2;
         }
 
         public function setPhoto2($photo2)
@@ -120,7 +142,7 @@
 
         public function getPhoto3()
         {
-            return $photo1 -> photo3;
+            return $this -> photo3;
         }
 
         public function setPhoto3($photo3)

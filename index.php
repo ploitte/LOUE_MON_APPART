@@ -9,7 +9,6 @@ session_start();
 Flight::register('bddManager', 'bddManager');
 Flight::register('user', 'user');
 Flight::register('annonce', 'annonce');
-Flight::register('image', 'image');
 
 Flight::render('html', array("heading" => "Hello"), 'html');
 Flight::render('header', array(), 'header');
@@ -21,10 +20,24 @@ Flight::route('/', function(){
 
 Flight::route("/hote", function(){
     if(isset($_SESSION["user"])){
-        Flight::render("hote");
+        $bdd = new bddManager();
+        $dep = $bdd -> getDepartement();
+        $villeDep = [];
+        $cat= ["Type","Appartement", "Maison", "Chambre", "Autre"];
+
+        //var_dump($_SESSION["lastForm"]); die();
+        if(isset($_SESSION["lastForm"]["dep"])){ 
+            $villeDep = $bdd -> getCity($_SESSION["lastForm"]["dep"]);
+        }
+        $formData = isset($_SESSION['lastForm']) ? $_SESSION['lastForm'] : false;
+        Flight::render("hote", array("formData" => $formData, "dep" => $dep, "villeDep" => $villeDep, "cat" => $cat));
+
     }else{
         Flight::redirect("accueil");
     }
+    $_SESSION["erreur"] = null;
+    $_SESSION["lastForm"] = null;
+
 });
 
 Flight::route("/accueil", function(){
@@ -85,13 +98,17 @@ Flight::route("POST /connexion", function(){
 
 Flight::route("POST /annonce", function(){
     $post = $_POST;
+    $test = "test";
     $file = $_FILES;
     $service = new serviceAnnonce();
+
     $service -> setParams($_POST);
     $service -> setImage($file);
     if($service -> launchControls() === true){
         $annonce = Flight::annonce();
 
+        $annonce -> setPays($post["pays"]);
+        $annonce -> setVille($post["ville"]);
         $annonce -> setCategorie($post["categorie"]);
         $annonce -> setSurface($post["surface"]);
         $annonce -> setNb_chambre($post["nb_chambre"]);
@@ -110,6 +127,7 @@ Flight::route("POST /annonce", function(){
         Flight::redirect("accueil?posted");
     }else{
         $_SESSION["erreur"] = $service -> getError();
+        $_SESSION["lastForm"] = $_POST;
         Flight::redirect("hote?error");
     }
 

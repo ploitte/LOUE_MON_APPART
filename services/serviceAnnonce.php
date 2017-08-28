@@ -22,11 +22,10 @@
 
 
         public function sizeImage($arg1){
-            $this -> image[$arg1]["size"] >= 2097152;   
+            return $this -> image[$arg1]["size"] <= 10097152;   
         }
         
         public function launchControls(){
-
 
             $image = $this -> image;
             $params = $this -> params;
@@ -36,41 +35,60 @@
             $extensionUpload2 = strtolower(substr(strrchr($image["photo2"]["name"], "."), 1));
             $extensionUpload3 = strtolower(substr(strrchr($image["photo3"]["name"], "."), 1));
 
-            // if($this -> sizeImage("photo1") {
-            //    $this -> saveError("tailleFichier1", "Photo1: Fichier trop volumineux");
-            // }
+            $flag1 = false;
+        
+            if(!empty($image["photo1"]["name"])
+            OR !empty($image["photo2"]["name"])
+            OR !empty($image["photo3"]["name"]))
+            {
+                if($this -> sizeImage("photo1")
+                || $this -> sizeImage("photo2")
+                || $this -> sizeImage("photo3"))
+                {
+                    if(in_array($extensionUpload1, $extensionValide)
+                    || in_array($extensionUpload2, $extensionValide)
+                    || in_array($extensionUpload3, $extensionValide))
+                    {
 
-            // if($this -> sizeImage("photo2") {
-            //    $this -> saveError("tailleFichier2", "Photo2: Fichier trop volumineux");
-            // }
+                    }else{
+                        $this -> saveError("formatFichier", "Formats image acceptés: jpg, jpeg, gif, png");
+                    }
 
-            // if($this -> sizeImage("photo3") {
-            //    $this -> saveError("tailleFichier3", "Photo3: Fichier trop volumineux");
-            // }
+                }else{
+                    $this -> saveError("tailleFichier", "Image trop volumineuse");
+                }
 
-            // if(!in_array($extensionUpload1, $extensionValide)){
-            //     $this -> saveError("formatFichier1", "Pohot 1: Format de fichier non accepté");
-            // }
+            }else{
+                $this -> saveError("emptyImage", "Image manquante, 1 minimum");
+            }
 
-            // if(!in_array($extensionUpload2, $extensionValide)){
-            //     $this -> saveError("formatFichier2", "Photo2: Format de fichier non accepté");
-            // }
+            if($params["categorie"] == "none"){
+                $this -> saveError("emptyCat", "Type manquant");
+            }
 
-            // if(!in_array($extensionUpload3, $extensionValide)){
-            //     $this -> saveError("formatFichier3", "Photo3: Format de fichier non accepté");
-            // }
+            if(empty($params["surface"])){
+                $this -> saveError("emptySurface", "Surface manquante");
+            }
 
-            // if($image["photo1"]["error"]){
-            //     $this -> saveError("transfertFichier1","Photo1: Erreur lors du transfert");
-            // }
+            if(empty($params["nb_chambre"])){
+                $this -> saveError("emptyNbChambre", "Nombre de chambre manquant");
+            }
 
-            // if($image["photo2"]["error"]){
-            //     $this -> saveError("transfertFichier2","Photo2: Erreur lors du transfert");
-            // }
+            if(empty($params["dispo"])){
+                $this -> saveError("emptyDispo", "Date de disponibilité manquante");
+            }
 
-            // if($image["photo3"]["error"]){
-            //     $this -> saveError("transfertFichier3","Photo3: Erreur lors du transfert");
-            // }
+            if(empty($params["prix"])){
+                $this -> saveError("emptyPrix", "Prix manquant");
+            }
+
+            if(empty($params["titre"])){
+                $this -> saveError("emptyTitre", "Titre manquant");
+            }
+
+            if(empty($params["desc"])){
+                $this -> saveError("emptyDesc", "Description manquante");
+            }
 
             if(!empty($this -> error)){
                 return $this -> error;
