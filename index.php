@@ -41,7 +41,15 @@ Flight::route("/hote", function(){
 });
 
 Flight::route("/accueil", function(){
-    Flight::render("accueil");
+
+    if(isset($_POST["where"])){
+        $getAnnonce = Flight::bddManager() -> getAnnonceSorted($_POST);
+    }
+    else {
+        $getAnnonce = Flight::bddManager() -> getAnnonce();
+    }
+    
+    Flight::render("accueil", array("getAnnonce" => $getAnnonce));
 });
 
 Flight::route("GET /connexion", function(){
@@ -57,6 +65,10 @@ Flight::route("/logOut", function(){
 Flight::route("GET /inscription", function(){
     Flight::render("inscription");
     $_SESSION["erreur"] = null;
+});
+
+Flight::route("/menuannonce", function(){
+    Flight::render("annonce");
 });
 
 Flight::route("POST /inscription", function(){
@@ -77,6 +89,12 @@ Flight::route("POST /inscription", function(){
         $_SESSION["erreur"] = $service -> getError();
         Flight::redirect("inscription?error");
     }
+});
+
+Flight::route("POST /reserv", function(){
+    
+    
+    Flight::redirect("accueil?reserved");
 });
 
 Flight::route("POST /connexion", function(){
@@ -107,7 +125,7 @@ Flight::route("POST /annonce", function(){
     if($service -> launchControls() === true){
         $annonce = Flight::annonce();
 
-        $annonce -> setPays($post["pays"]);
+        $annonce -> setDep($post["dep"]);
         $annonce -> setVille($post["ville"]);
         $annonce -> setCategorie($post["categorie"]);
         $annonce -> setSurface($post["surface"]);
@@ -115,14 +133,15 @@ Flight::route("POST /annonce", function(){
         $annonce -> setDispo($post["dispo"]);
         $annonce -> setTitre($post["titre"]);
         $annonce -> setDesc($post["desc"]);
-        $annonce -> setPrix($post["prix"]);
+        $annonce -> setPrixNuit($post["prixNuit"]);
+        $annonce -> setPrixSemaine($post["prixSemaine"]);
+        $annonce -> setPrixMois($post["prixMois"]);
         $annonce -> setPhoto1($file["photo1"]);
         $annonce -> setPhoto2($file["photo2"]);
         $annonce -> setPhoto3($file["photo3"]);
 
  
         $annonce -> insert(Flight::bddManager());
-        $annonce -> insertImg(Flight::bddManager());
 
         Flight::redirect("accueil?posted");
     }else{

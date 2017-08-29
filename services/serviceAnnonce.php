@@ -66,28 +66,44 @@
                 $this -> saveError("emptyCat", "Type manquant");
             }
 
+            if(empty($params["dep"])){
+                $this -> saveError("emptyDep", "Departement non renseigné");
+            }
+
+            if(empty($params["ville"])){
+                $this -> saveError("emptyVille", "Ville non renseignée");
+            }
+
             if(empty($params["surface"])){
-                $this -> saveError("emptySurface", "Surface manquante");
+                $this -> saveError("emptySurface", "Surface non renseignée");
             }
 
             if(empty($params["nb_chambre"])){
-                $this -> saveError("emptyNbChambre", "Nombre de chambre manquant");
+                $this -> saveError("emptyNbChambre", "Nombre de chambre non renseigné");
             }
 
             if(empty($params["dispo"])){
-                $this -> saveError("emptyDispo", "Date de disponibilité manquante");
+                $this -> saveError("emptyDispo", "Date de disponibilité non renseignée");
             }
 
-            if(empty($params["prix"])){
-                $this -> saveError("emptyPrix", "Prix manquant");
+            if(empty($params["prixNuit"])){
+                $this -> saveError("emptyPrixNuit", "Prix Nuit non renseigné");
+            }
+
+            if(empty($params["prixSemaine"])){
+                $this -> saveError("emptyPrixSemaine", "Prix Semaine non renseigné");
+            }
+
+            if(empty($params["prixMois"])){
+                $this -> saveError("emptyPrixMois", "Prix Mois non renseigné");
             }
 
             if(empty($params["titre"])){
-                $this -> saveError("emptyTitre", "Titre manquant");
+                $this -> saveError("emptyTitre", "Titre de l'annonce non renseigné");
             }
 
             if(empty($params["desc"])){
-                $this -> saveError("emptyDesc", "Description manquante");
+                $this -> saveError("emptyDesc", "Description de l'annonce non renseignée");
             }
 
             if(!empty($this -> error)){

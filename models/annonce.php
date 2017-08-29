@@ -3,7 +3,7 @@
     Class annonce{
 
         private $id;
-        private $pays;
+        private $departement;
         private $ville;
         private $categorie;
         private $surface;
@@ -11,10 +11,13 @@
         private $dispo;
         private $titre;
         private $desc;
-        private $prix;
+        private $prix_nuit;
+        private $prix_semaine;
+        private $prix_mois;
         private $photo1;
         private $photo2;
         private $photo3;
+        private $reserv;
 
         public function __construct($donnees = array()){
             $this -> hydrate($donnees);
@@ -30,14 +33,14 @@
             $this -> id = $id;
         }
 
-        public function getPays()
+        public function getDep()
         {
-            return $this -> pays;
+            return $this -> departement;
         }
 
-        public function setPays($pays)
+        public function setDep($departement)
         {
-            $this -> pays = $pays;
+            $this -> departement = $departement;
         }
 
         public function getVille()
@@ -90,14 +93,34 @@
             $this -> dispo = $dispo;
         }
 
-        public function getPrix()
+        public function getPrixNuit()
         {
-            return $this -> prix;
+            return $this -> prix_nuit;
         }
 
-        public function setPrix($prix)
+        public function setPrixNuit($prix_nuit)
         {
-            $this -> prix = $prix;
+            $this -> prix_nuit = $prix_nuit;
+        }
+
+        public function getPrixSemaine()
+        {
+            return $this -> prix_semaine;
+        }
+
+        public function setPrixSemaine($prix_semaine)
+        {
+            $this -> prix_semaine = $prix_semaine;
+        }
+
+        public function getPrixMois()
+        {
+            return $this -> prix_mois;
+        }
+
+        public function setPrixMois($prix_mois)
+        {
+            $this -> prix_mois = $prix_mois;
         }
 
         public function getTitre()
@@ -150,7 +173,15 @@
             $this -> photo3 = $photo3;
         }
 
+        public function getReserv()
+        {
+            return $this -> reserv;
+        }
 
+        public function setReserv($reserv)
+        {
+            $this -> reserv = $reserv;
+        }
 
         public function hydrate($donnees)
         {
@@ -172,10 +203,9 @@
             $bddManager -> insertAnnonce($this);
         }
 
-        public function insertImg(bddmanager $bddManager){
-            $bddManager -> insertImage($this);
+        public function get(bddManager $bddManager){
+            $bddManager -> getAnnonce($this);
         }
-
     }
 
 ?>

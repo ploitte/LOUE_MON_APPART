@@ -1,0 +1,6 @@
+<?= $html ?>
+<?= $header ?>
+
+ANNONCE !
+
+<?= $footer ?>

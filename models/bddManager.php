@@ -79,26 +79,6 @@
   //  ANNONCE_____________________________________________________________________________________________________________________
     
         public function insertAnnonce(annonce $annonce){
-
-            $pdo = $this -> connexion -> prepare("INSERT INTO annonce SET categorie=:categorie, pays=:pays, ville=:ville,
-            surface=:surface, nb_chambre=:nb_chambre, dispo=:dispo, titre=:titre, description=:description, prix=:prix");
-            $pdo -> execute(array(
-                // "type" => $annonce -> getTypes(),
-                "categorie" => $annonce -> getCategorie(),
-                "pays" => $annonce -> getPays(),
-                "ville" => $annonce -> getVille(),
-                "surface" => $annonce -> getSurface(),
-                "nb_chambre" => $annonce -> getNb_chambre(),
-                "dispo" => $annonce -> getDispo(),
-                "titre" => $annonce -> getTitre(),
-                "description" => $annonce -> getDesc(),
-                "prix" => $annonce -> getPrix()
-            ));
-            return $pdo -> rowCount();
-        }
-
-         public function insertImage(annonce $annonce){
-  
             $dossier = "images/";
             $fichier1 = $annonce -> getPhoto1();
             $fichier2 = $annonce -> getPhoto2();
@@ -116,15 +96,29 @@
             move_uploaded_file($fichier1["tmp_name"], $dossier.$fichier1_str);
             move_uploaded_file($fichier2["tmp_name"], $dossier.$fichier2_str);
             move_uploaded_file($fichier3["tmp_name"], $dossier.$fichier3_str);
-            
-            $pdo = $this -> connexion -> prepare("INSERT INTO annonce SET image1=:image1, image2=:image2, image3=:image3");
+            $pdo = $this -> connexion -> prepare("INSERT INTO annonce SET categorie=:categorie, departement=:departement, ville=:ville,
+            surface=:surface, nb_chambre=:nb_chambre, dispo=:dispo, titre=:titre, description=:description, prix_semaine=:prix_semaine, prix_mois=:prix_mois, prix_nuit=:prix_nuit, image1=:image1, image2=:image2, image3=:image3");
             $pdo -> execute(array(
+                // "type" => $annonce -> getTypes(),
+
+                "categorie" => $annonce -> getCategorie(),
+                "prix_mois" => $annonce -> getPrixMois(),
+                "prix_semaine" => $annonce -> getPrixSemaine(),
+                "prix_nuit" => $annonce -> getPrixNuit(),
+                "departement" => $annonce -> getDep(),
+                "ville" => $annonce -> getVille(),
+                "surface" => $annonce -> getSurface(),
+                "nb_chambre" => $annonce -> getNb_chambre(),
+                "dispo" => $annonce -> getDispo(),
+                "titre" => $annonce -> getTitre(),
+                "description" => $annonce -> getDesc(),
                 "image1" => $fichier1_str,
                 "image2" => $fichier2_str,
                 "image3" => $fichier3_str
             ));
-            $pdo -> closeCursor();
+            return $pdo -> rowCount();
         }
+
 
         public function getDepartement(){
             $pdo = $this -> connexion -> prepare("SELECT ville_departement FROM villes_france_free GROUP BY ville_departement");
@@ -138,8 +132,45 @@
                 "ville_departement" => $arg1 
             ));
             return $pdo -> fetchAll(PDO::FETCH_ASSOC);
-
         }
-    }
+   
+
+        public function getAnnonce(){
+            $pdo = $this -> connexion -> prepare("SELECT * FROM annonce");
+            $pdo -> execute();
+            return $pdo -> fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getAnnonceSorted($data){
+            $sql = "SELECT * FROM annonce WHERE";
+            $where = "";
+
+            if(strlen($data['where']) > 0){
+                $where .= "AND ville=" . $data['where'] ." ";
+            }
+
+            if(strlen($data['date']) > 0){
+                $where .= "AND date=" . $data['date']." ";
+            }
+
+            if(strlen($data['how']) > 0){
+                $where .= "AND nb_chambre=" . $data['how']." ";
+            }
+
+            $where = substr(3, strlen($where));
+         
+            $pdo = $this -> connexion -> prepare($sql . $where);
+            $pdo -> execute();
+            return $pdo -> fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function reservAnnonce(annonce $annonce){
+            $pdo -> connexion -> preapre("UPDATE reserved FROM annonce WHERE id=:id");
+            $pdo -> execute(array(
+                "id" => $annonce -> getId()
+            ));
+        }
+  
+     }
 
 ?>

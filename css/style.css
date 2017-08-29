@@ -1,6 +1,8 @@
 body{
     height: 100vh;
     width: 100vw;
+    background-color: brown;
+    position: relative;
 }
 
 header{
@@ -35,6 +37,130 @@ header a{
     align-items: center;
 }
 
-.form_annonce input{
-    display: block;
+.annonce{
+    width: 50%;
+    height: 50%;
 }
+
+.annonce form{
+    width: 100%;
+    height: 100%;
+}
+
+.search{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.showApp{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+a{
+    height: 50%;
+    width: 36%;
+    margin: 10px;
+}
+.vignette{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-size: cover;
+}
+
+.prix{
+    height: 15%;
+    width: 25%;
+    background-color: white;
+    position: absolute;
+    left: 2%;
+    top: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lieux{
+    height: 8%;
+    width: 43%;
+    background-color: yellow;
+    position: absolute;
+    right: 1%;
+    bottom: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.surface{
+    height: 10%;
+    width: 10%;
+    background-color: red;
+    position: absolute;
+    left: 1%;
+    bottom: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button{
+    position: absolute;
+    right: 2%;
+    top: 2%;
+    height: 10%;
+    width: 20%;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+.popup{
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orangered;
+}
+
+.popup form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width:  50%;
+    flex-wrap: wrap;
+}
+
+.label{
+    width: 45%;
+    background-color: black;
+    color: white;
+}
+
+.contForm{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.sContForm{
+    width: 50%;
+}
+
+
+
+
+
